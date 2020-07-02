@@ -1,0 +1,10 @@
+RewriteEngine On
+
+RewriteRule %{REQUEST_FILENAME} !-f
+RewriteRule %{REQUEST_FILENAME} !-d
+
+Options -Indexes
+
+RewriteRule ^([a-z-]*)$ index.php?module=$1 [QSA,L]
+RewriteRule ^([a-z-]*)/([a-z0-9-]+)?$ index.php?module=$1&action=$2 [QSA,L]
+RewriteRule ^([a-z-]*)/([a-z0-9-]*)/([a-z0-9-;+]+)?$ index.php?module=$1&action=$2&value=$3 [QSA,L]
