@@ -1,0 +1,12 @@
+{
+	"autoload": {
+		"psr-4": {
+			"Core\\" : "src/Core/",
+			"Produto\\" : "src/Produto/",
+			"Home\\" : "src/Home/"
+		}
+	},
+	"require": {
+
+	}
+}
