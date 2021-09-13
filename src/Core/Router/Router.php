@@ -2,6 +2,8 @@
 
 namespace Core\Router;
 
+use Throwable;
+
 use Core\Form;
 use Core\Sistema;
 use Core\Interfaces\IController;
@@ -17,16 +19,18 @@ if (strpos($url, ".php")){
 }
 
 class Router {
+	/** @var array { @type IController } */
 	private $modules;
+	/** @var IView $pageNotFound */
+	private $pageNotFound;
 
 	function __construct(){
-
 		$this->modules = [];
+		$this->pageNotFound = Sistema::pageNotFound();
+	}
 
-		$this->setRoute("", new HomeController);
-		$this->setRoute("home", new HomeController);
-		$this->setRoute("index", new HomeController);
-		$this->setRoute("produto", new ProdutoController);
+	public function setPageNotFoundDefault(IView $pageNotFound) {
+		$this->pageNotFound = $pageNotFound;
 	}
 
 	public function route(){
@@ -43,13 +47,13 @@ class Router {
 		}
 	}
 
-	private function setRoute(string $module, IController $controller){
+	public function setRoute(string $module, IController $controller){
 		$this->modules[$module] = $controller;
 	}
 
 	private function getView(string $module, string $action): IView {
 		if (!isset($this->modules[$module])) {
-			return Sistema::pageNotFound();
+			return $this->pageNotFound;
 		}
 
 		$controller = $this->modules[$module];
@@ -60,7 +64,7 @@ class Router {
 		$form = $this->getForm();
 		$view = $controller->getView($action, $form);
 		if (empty($view)) {
-			return Sistema::pageNotFound();
+			return $this->pageNotFound;
 		}
 		return $view;
 	}
