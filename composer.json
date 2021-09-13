@@ -1,4 +1,7 @@
 {
+	"name": "ishynoris/mini_framework",
+	"description": "Mini Framework MVC",
+	"type": "package",
 	"autoload": {
 		"psr-4": {
 			"Core\\" : "src/Core/",
